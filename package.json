@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "bot": "nodemon src/bot/index.js"
+  },
+  "keywords": [],
+  "author": "2rrs",
+  "license": "ISC",
+  "detpendencies": {
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.1.2",
+    "cors": "^2.8.5",
+    "knex": "^0.21.1",
+    "multer": "^1.4.2",
+    "qrcode-terminal": "^0.12.0",
+    "sqlite3": "^4.2.0",
+    "watson-developer-cloud": "^4.0.1",
+    "whatsapp-web.js": "^1.7.0"
+  }
+}
