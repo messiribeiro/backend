@@ -28,7 +28,7 @@ async function execute(people, message) {
                 stage: numberOfstage
             })
     }
-
+    Copie e cole este link: https://api.whatsapp.com/send?phone=seunumerodetelefone&text=sua%20mensagem
     async function dbConnection() {
         await knex('demand').insert({
             nameOfCompany,
