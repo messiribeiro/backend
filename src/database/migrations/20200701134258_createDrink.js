@@ -6,7 +6,6 @@ exports.up = function(knex) {
         table.string('price').notNullable();
         table.string('image');
         table.string('company_id').notNullable()
-        
     });
 };
 

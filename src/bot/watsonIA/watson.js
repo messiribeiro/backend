@@ -1,4 +1,4 @@
-const watsonApiKey = require('../../../credentials/watson-nlu.json').apikey
+const watsonApiKey = require('../../credentials/watson-nlu.json').apikey
 
 var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
 
@@ -8,24 +8,27 @@ var nlu = new NaturalLanguageUnderstandingV1({
     url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
 });
 
-function getKeywords(msg) {
-    nlu.analyze(
-        {
-            text: `${msg}`, // Buffer or String
-            features: {
-                concepts: {},
-                keywords: {}
+async function watsonKeywords(sentence){
+    return new Promise((resolve, reject) => {
+        nlu.analyze(
+                {
+                    text: sentence,
+                    features: {
+                        keywords: {}
+                    } 
+                },
+                function (error, response) {
+                    if (error) {
+                        throw error
+                    }
+                    const keywords = response.keywords.map((keyword)=> {
+                        return keyword.text
+                    })
+                    resolve(keywords)
             }
-        },
-        function (err, response) {
-            if (err) {
-                console.log('error:', err);
-            } else {
-                console.log(JSON.stringify(response, null, 1));
-            }
-            process.exit(0)
-        }
-    );
+        );
+    })
 }
 
-exports.getKeywords = getKeywords
+
+module.exports = watsonKeywords

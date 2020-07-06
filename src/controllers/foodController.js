@@ -3,9 +3,8 @@ const knex = require('../database/connection');
 
 module.exports = {
     async create(request, response){
-        const foodInfo = {
+        const  {
             name,
-            stuff,
             price,
             description
 

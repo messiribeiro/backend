@@ -4,34 +4,83 @@ const knex = require("../database/connection")
 
 // const watson = require('./watsonIA/watson')
 
-const banco = require('./banco')
-const stages = require('./stages.js')
+
+const stages = require('./stages.js');
 
 
 
-// exports.db = banco
+
 const client = new Client();
 
 
 client.on('qr', (qr) => {
-    qrcode.generate(qr, {small: true});
+    qrcode.generate(qr, { small: true });
 });
 
-console.log(banco.db['user1'].stage)
 
-client.on('message', message => {
-    console.log(message);
-    if (message.body === 'Bolsonaro'){
-        let resp = stages.step[getStage(message.from)].obj.execute()
-        for (let index = 0; index < resp.length; index++) {
-            var element = resp[index];
-            client.sendMessage(message.from, element)
-        }
-    }
-});
 
-function getStage(user) {
-    return banco.db[user].stage
+async function deleted() {
+    await knex('userZap').delete()
+    await knex('demand').delete()
 }
+
+
+deleted()
+
+// NÃO MEXA NO CÓDIGO A SEGUIR.
+client.on('message', message => {
+
+
+    async function send() {
+        
+       
+        
+
+        const people = await knex('userZap')
+            .where('user', message.from)
+            .select('*')
+
+        
+
+        const stage = 0
+
+        const user = message.from
+
+        if(people.length == 0) {
+
+           await knex('userZap').insert({
+                user,
+                stage
+            })
+            
+        }
+
+        
+
+        const [userData] = await knex('userZap')
+                .where('user', user)
+                .select('*')
+
+        
+        console.log(userData)
+        
+       
+        stages[userData.stage].obj.execute(user, message.body)
+        .then((response) => {
+            client.sendMessage(message.from, response);
+        })
+        
+    }
+
+    send()
+
+
+}
+);
+
+// // pode mexer daqui pra baixo
+
+// getKeywords('Eu vou querer um bacon mal passado')
+
 
 client.initialize();

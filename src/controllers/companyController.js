@@ -10,7 +10,9 @@ module.exports = {
             email,
             telephone,
             uf,
-            city
+            city,
+            latitude,
+            longitude
             
         } = request.body;
         
@@ -18,7 +20,7 @@ module.exports = {
         
         const id = await crypto.randomBytes(16).toString('hex');
 
-        if(nameVerify.length > 20) {
+        if(nameVerify.length > 40) {
             return response.json({error: 'name is too long'})
         }
 
@@ -42,7 +44,9 @@ module.exports = {
             telephone,
             uf,
             city,
-            id
+            id,
+            latitude,
+            longitude
         })
 
         await trx.commit()
@@ -52,8 +56,14 @@ module.exports = {
 
     },
 
+
+
+
     async login(request, response) {
         const { email, password } = request.body
+
+
+        console.log(email, password)
 
         const secret = password;
 
